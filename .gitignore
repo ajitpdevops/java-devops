@@ -23,5 +23,8 @@
 hs_err_pid*
 /.metadata/
 
+/target/
+**/datadir/*
+
 # Flight Service Project
 
