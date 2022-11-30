@@ -47,6 +47,14 @@
     - sudo apt-get install openjdk-11-jdk
     - java --version
 
+- maven 3.6.3
+    - curl https://mirrors.estointernet.in/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -o "apache-maven-3.6.3-bin.tar.gz"
+    - tar -xvf apache-maven-3.6.3-bin.tar.gz
+    - mv apache-maven-3.6.3 ~/bin/
+    - M2_HOME='~/bin/apache-maven-3.6.3'
+    - PATH="$M2_HOME/bin:$PATH"
+    - export PATH
+
 - VSCode extensions installed for WSL 
     * Docker
     * Java Extension Pack 
@@ -65,4 +73,21 @@
     - Spring JPA for Data
     - MySQL Driver 
     - Spring web 
+
+## Postman calls to create Coupon & Products
+
+- Create a coupon 
+{
+    "code":"XMAS",
+    "discount":25,
+    "expDate":"26/12/2022"
+}
+
+- Create a product 
+{
+    "name":"X-mas Tree",
+    "description": "A must have in your Xmas decoration",
+    "price": 75,
+    "couponCode": "XMAS"
+}
 
