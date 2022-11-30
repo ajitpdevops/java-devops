@@ -1,5 +1,9 @@
 {
-    "java.dependency.packagePresentation": "hierarchical",
-    "java.dependency.syncWithFolderExplorer": true,
-    "java.configuration.updateBuildConfiguration": "interactive"
-}
+    "java.configuration.runtimes": [
+        {
+          "name": "JavaSE-11",
+          "path": "/usr/lib/jvm/java-11-openjdk-amd64",
+          "default": true
+        },
+      ]
+    }
