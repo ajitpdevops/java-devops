@@ -25,6 +25,7 @@ hs_err_pid*
 
 /target/
 docker/mysql/datadir/*
+!docker/mysql/datadir/test.txt
 
 # Flight Service Project
 
