@@ -64,8 +64,9 @@
     * MySQL Extension
 
 ## Get Started with the Project 
-1. Clone the Git Repository in WSL 
-2. Start the Docker
+1. Clone the Git Repository in WSL at your "repos" location
+2. Start the Docker service
+3. 
 
 ## Creating a springboot project
 1. Create a new Spring Project with Maven
@@ -75,7 +76,6 @@
     - Spring web 
 
 ## Postman calls to create Coupon & Products
-
 - Create a coupon 
 {
     "code":"XMAS",
