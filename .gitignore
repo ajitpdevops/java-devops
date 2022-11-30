@@ -24,7 +24,7 @@ hs_err_pid*
 /.metadata/
 
 /target/
-datadir/*
+docker/mysql/datadir/*
 
 # Flight Service Project
 
