@@ -25,6 +25,8 @@ hs_err_pid*
 
 /target/
 
+.m2/
+
 # DataDir Volumes causing permissions issues
 docker/mysql/datadir/*
 !docker/mysql/datadir/test.txt

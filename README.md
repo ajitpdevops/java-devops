@@ -75,6 +75,11 @@
     - MySQL Driver 
     - Spring web 
 
+## Building the projects in Maven containers - 
+1. To build the productservice app, execute [docker-compose run --rm mvn-product clean package -DskipTests]
+2. To build the couponservice app, execute [docker-compose run --rm mvn-coupon clean package -DskipTests]
+
+
 ## Postman calls to create Coupon & Products
 - Create a coupon 
 {
