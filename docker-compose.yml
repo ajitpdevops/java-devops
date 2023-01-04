@@ -20,7 +20,7 @@ services:
       - ./couponservice:/repo
     working_dir: /repo
     entrypoint: mvn -B
-    command: clean install
+    command: clean install -DskipTests
 
   mvn-product:
     build:
@@ -41,7 +41,7 @@ services:
       - ./productservice:/repo
     working_dir: /repo
     entrypoint: mvn -B
-    command: clean install
+    command: clean install -DskipTests
 
   web-db:
     image: mysql:5.6
