@@ -37,21 +37,21 @@ resource "aws_security_group" "ecs-sg" {
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    description     = "Allow all inbound traffic"
+    description     = "Allow inbound traffic for first app"
     from_port       = var.spring_1_port
     to_port         = var.spring_1_port
     protocol        = "tcp"
     security_groups = [aws_security_group.alb-sg.id]
   }
   ingress {
-    description     = "Allow all inbound traffic"
+    description     = "Allow all inbound traffic for second app"
     from_port       = var.spring_2_port
     to_port         = var.spring_2_port
     protocol        = "tcp"
     security_groups = [aws_security_group.alb-sg.id]
   }
   ingress {
-    description     = "Allow all inbound traffic"
+    description     = "Allow all inbound traffic frontend app"
     from_port       = var.frontend_port
     to_port         = var.frontend_port
     protocol        = "tcp"
@@ -76,7 +76,7 @@ resource "aws_security_group" "rds-sg" {
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    description     = "Allow all inbound traffic"
+    description     = "Allow inbound traffic"
     from_port       = var.rds_port
     to_port         = var.rds_port
     protocol        = "tcp"
@@ -90,6 +90,5 @@ resource "aws_security_group" "rds-sg" {
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
     IPv6_cidr_blocks = ["::/0"]
-
   }
 }

@@ -113,3 +113,12 @@ variable "ecs_cluster_name" {
   description = "value of the ecs cluster name"
   default     = "app-ecs-cluster"
 }
+
+variable "ecr_repo_name" {
+  default = "springboot"
+}
+
+variable "lb_certificate_arn" {
+  description = "value of the lb certificate arn"
+  default = "arn:aws:acm:us-east-1:243302161856:certificate/cde28de9-e4fb-4a5b-b17d-7954008353b3"
+}
