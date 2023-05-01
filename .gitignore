@@ -33,3 +33,5 @@ docker/mysql/datadir/*
 
 # Flight Service Project
 
+# VS Code settings files
+.vscode/

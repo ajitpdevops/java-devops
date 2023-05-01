@@ -1,8 +1,8 @@
 {
     "java.configuration.runtimes": [
         {
-          "name": "JavaSE-11",
-          "path": "/usr/lib/jvm/java-11-openjdk-amd64",
+          "name": "JavaSE-17",
+          "path": "/usr/lib/jvm/jdk-17",
           "default": true
         },
       ]
