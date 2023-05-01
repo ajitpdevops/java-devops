@@ -96,3 +96,19 @@
     "couponCode": "XMAS"
 }
 
+## Setting up Terraform Automation
+1. Set up the provider 
+2. Setting up Networking components 
+    - Setup VPC 
+    - Setup Internet Gateway - IGW & Route table association
+    - Public Subnet - 2, Route Table, Route table association 
+    - Private Subnets - 2, Route Table, Route table association 
+    - Elastic IP for Nat Gatway 
+    - Nat Gateway - NGW & Route table association 
+3. Security Group for ALB allows port 80 traffic from anywhere
+4. Security Group for ECS Clusters [8080, 8081, 3000]
+5. Security Group for Postgres RDS [5432]
+6. Create db subnet group 
+7. Create a Postgres RDS cluster within private subnets
+
+
