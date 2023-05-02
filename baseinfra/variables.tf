@@ -77,7 +77,7 @@ variable "rds_engine" {
 
 variable "rds_engine_version" {
   description = "value of the postgres engine version"
-  default     = "12.5"
+  default     = "15.2"
 }
 
 variable "rds_storage_type" {
@@ -97,7 +97,7 @@ variable "rds_public_access" {
 
 variable "rds_instance_class" {
   description = "value of the postgres instance class"
-  default     = "db.t2.micro"
+  default     = "db.t3.micro"
 }
 
 variable "rds_database_name" {
@@ -132,4 +132,9 @@ variable "ecr_repo_name" {
 variable "lb_certificate_arn" {
   description = "value of the lb certificate arn"
   default = "arn:aws:acm:us-east-1:243302161856:certificate/cde28de9-e4fb-4a5b-b17d-7954008353b3"
+}
+
+variable "container_insights" {
+  description = "value of the container insights"
+  default     = true
 }

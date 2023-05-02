@@ -28,7 +28,7 @@
     - docker ps
 
 - docker-compose version 1.29.2
-    - sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o ~/bin/docker-compose
+    - sudo curl -L "https://github.com/docker/compose/releases/download/v2.17.2/docker-compose-linux-x86_64" -o ~/bin/docker-compose
     - sudo chmod +x ~/bin/docker-compose
     - docker-compose --version
 
@@ -76,8 +76,8 @@
     - Spring web 
 
 ## Building the projects in Maven containers - 
-1. To build the productservice app, execute [docker-compose run --rm mvn-product clean package -DskipTests]
-2. To build the couponservice app, execute [docker-compose run --rm mvn-coupon clean package -DskipTests]
+1. To build the couponservice app, execute [docker-compose run --rm mvn-coupon clean package -DskipTests]
+2. To build the productservice app, execute [docker-compose run --rm mvn-product clean package -DskipTests]
 
 
 ## Postman calls to create Coupon & Products
@@ -95,6 +95,11 @@
     "price": 75,
     "couponCode": "XMAS"
 }
+
+## ECR Login 
+- aws ecr get-login-password --region region | docker login --username AWS --password-stdin 243302161856.dkr.ecr.us-east-1.amazonaws.com
+- docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 243302161856.dkr.ecr.us-east-1.amazonaws.com
+
 
 ## Setting up Terraform Automation
 1. Set up the provider 
@@ -124,4 +129,6 @@ ECS cluster with task and service definition
 1. terraform init -backend-config="./env/baseinfra-prod.config"
 2. terraform plan -var-file="production.tfvars" -out="production.tfplan"
 3. terraform apply -var-file="production.tfvars"
+4. terraform destroy -var-file="production.tfvars"
 
+updating Security Group (sg-08770c64a8fd42396) ingress rules: updating rules: from_port (80) and to_port (80) must both be 0 to use the 'ALL' "-1" protocol!

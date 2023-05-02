@@ -6,5 +6,32 @@
           "default": true
         },
       ],
-      "java.compile.nullAnalysis.mode": "automatic"
+      "java.compile.nullAnalysis.mode": "automatic",
+      "sqltools.connections": [
+        {
+          "previewLimit": 50,
+          "server": "localhost",
+          "port": 5432,
+          "askForPassword": true,
+          "driver": "PostgreSQL",
+          "name": "localhost",
+          "group": "TEST",
+          "database": "mydb",
+          "username": "postgres"
+        },
+        {
+          "mysqlOptions": {
+            "authProtocol": "default"
+          },
+          "previewLimit": 50,
+          "server": "localhost",
+          "port": 3310,
+          "driver": "MySQL",
+          "name": "mysql",
+          "group": "test2",
+          "database": "mydb",
+          "username": "admin",
+          "askForPassword": true
+        }
+      ]
     }

@@ -1,0 +1,91 @@
+version: "2.4"
+
+services:
+  mvn-coupon:
+    build:
+      context: .
+      dockerfile: ./couponservice/docker/maven/Dockerfile
+    container_name: mvn-coupon
+    platform: linux
+    isolation: default
+    mem_limit: 2G
+    mem_reservation: 2G
+    environment:
+      - TZ=America/Chicago
+      - LC_ALL=en_US
+      - JAVA_OPTS=-Xmx2g -Xms2g
+      - MAVEN_OPTS=-Xmx2g -Xms2g
+    volumes:
+      - .m2:/root/.m2
+      - ./couponservice:/repo
+    working_dir: /repo
+    entrypoint: mvn -B
+    command: clean install
+
+  mvn-product:
+    build:
+      context: .
+      dockerfile: ./productservice/docker/maven/Dockerfile
+    container_name: mvn-product
+    platform: linux
+    isolation: default
+    mem_limit: 2G
+    mem_reservation: 2G
+    environment:
+      - TZ=America/Chicago
+      - LC_ALL=en_US
+      - JAVA_OPTS=-Xmx2g -Xms2g
+      - MAVEN_OPTS=-Xmx2g -Xms2g
+    volumes:
+      - .m2:/root/.m2
+      - ./productservice:/repo
+    working_dir: /repo
+    entrypoint: mvn -B
+    command: clean install
+
+  web-db:
+    image: postgres:15.2
+    container_name: web-db
+    restart: always
+    ports:
+      - "5432:5432"
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=mydb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  coupon-app:
+    build: 
+      context: .
+      dockerfile: ./couponservice/docker/service/Dockerfile
+    environment:
+      - TZ=America/Chicago
+    container_name: coupon-app
+    mem_limit: 1G
+    mem_reservation: 1G
+    ports:
+      - "8090:8090"
+    depends_on:
+      - db
+
+  product-app:
+    build: 
+      context: .
+      dockerfile: ./productservice/docker/service/Dockerfile
+    container_name: product-app
+    mem_limit: 1G
+    mem_reservation: 1G
+    ports:
+      - "8091:8091"
+    depends_on:
+      - db

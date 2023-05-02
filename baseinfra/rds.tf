@@ -10,6 +10,27 @@ resource "aws_db_subnet_group" "db_subnet_group" {
   }
 }
 
+resource "aws_db_parameter_group" "db-parameter-group" {
+  name        = "postgres-db-parameter-group"
+  family      = "postgres12"
+  description = "postgres db parameter group"
+
+  parameter {
+    name  = "shared_preload_libraries"
+    value = "pg_stat_statements"
+  }
+
+  parameter {
+    name  = "pg_stat_statements.track"
+    value = "all"
+  }
+
+  tags = {
+    Name = "${var.environment}-db-parameter-group"
+  }
+  
+}
+
 
 # Create a Postgres RDS cluster within my VPC and subnets
 
@@ -33,7 +54,6 @@ resource "aws_db_instance" "rds-instance" {
   skip_final_snapshot         = true
   final_snapshot_identifier   = var.final_snapshot_identifier
   vpc_security_group_ids      = [aws_security_group.rds-sg.id, aws_security_group.ecs-sg.id]
-  parameter_group_name        = "default.postgres12"
   db_subnet_group_name        = "${aws_db_subnet_group.db_subnet_group.name}"
 
   tags = {
