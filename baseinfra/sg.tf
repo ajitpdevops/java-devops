@@ -10,9 +10,9 @@ resource "aws_security_group" "alb-sg" {
     description      = "Allow all inbound traffic"
     from_port        = 80
     to_port          = 80
-    protocol         = "-1"
+    protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
-    IPv6_cidr_blocks = ["::/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   egress {
@@ -21,7 +21,7 @@ resource "aws_security_group" "alb-sg" {
     to_port          = 0
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
-    IPv6_cidr_blocks = ["::/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   tags = {
@@ -64,7 +64,7 @@ resource "aws_security_group" "ecs-sg" {
     to_port          = 0
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
-    IPv6_cidr_blocks = ["::/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 }
 
@@ -89,6 +89,6 @@ resource "aws_security_group" "rds-sg" {
     to_port          = 0
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
-    IPv6_cidr_blocks = ["::/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 }

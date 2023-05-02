@@ -21,3 +21,11 @@ output "private_subnet_1a_id" {
 output "private_subnet_1b_id" {
   value = aws_subnet.private-subnet-1b.id
 }
+
+output "postgres_endpoint" {
+  value = aws_db_instance.rds-instance.endpoint
+}
+
+output "alb-dns-name" {
+  value = aws_lb.main-alb.dns_name
+}

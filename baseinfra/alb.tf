@@ -1,6 +1,6 @@
 # Create the ALB
 resource "aws_lb" "main-alb" {
-    name               = "${var.environment}-ALB}"
+    name               = "${var.environment}-ALB"
     internal           = false
     load_balancer_type = "application"
     security_groups    = [aws_security_group.alb-sg.id]
@@ -49,13 +49,13 @@ resource "aws_lb_listener" "ecs-http-listener" {
 
 
 resource "aws_lb_listener" "https" {
-  load_balancer_arn = "${aws_lb.example.arn}"
+  load_balancer_arn = "${aws_lb.main-alb.arn}"
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
   certificate_arn   = var.lb_certificate_arn
   default_action {
     type           = "forward"
-    target_group_arn = "${aws_lb_target_group.ecs-default-target-group.arn}"
+    target_group_arn = aws_alb_target_group.ecs-default-target-group.arn
   }
 }

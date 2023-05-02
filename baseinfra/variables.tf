@@ -3,8 +3,6 @@ variable "aws_region" {
   description = "AWS REGION"
 }
 
-variable "aws_access_key" {}
-variable "aws_secret_key" {}
 
 variable "environment" {
   default     = "DEV"
@@ -18,24 +16,27 @@ variable "vpc_cidr_block" {
 
 variable "public_subnet_1a_cidr_block" {
   description = "value of the public subnet 1a cidr block"
-
+  default = "10.0.1.0/24"
 }
 
 variable "public_subnet_1b_cidr_block" {
   description = "value of the public subnet 1b cidr block"
+  default = "10.0.2.0/24"
 }
 
 variable "private_subnet_1a_cidr_block" {
   description = "value of the private subnet 1a cidr block"
-
+  default = "10.0.10.0/24"
 }
 
 variable "private_subnet_1b_cidr_block" {
   description = "value of the private subnet 1b cidr block"
+  default = "10.0.11.0/24"
 }
 
 variable "elastic_ip_for_nat_gateway" {
   description = "value of the elastic ip for nat gateway public ip"
+  default = "10.0.0.5"
 
 }
 
@@ -82,6 +83,16 @@ variable "rds_engine_version" {
 variable "rds_storage_type" {
   description = "value of the postgres storage type"
   default     = "gp2"
+}
+
+variable "rds_multi_az" {
+  description = "value of the postgres multi az"
+  default     = "false"
+}
+
+variable "rds_public_access" {
+  description = "value of the postgres public access"
+  default     = "false"
 }
 
 variable "rds_instance_class" {

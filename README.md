@@ -110,5 +110,18 @@
 5. Security Group for Postgres RDS [5432]
 6. Create db subnet group 
 7. Create a Postgres RDS cluster within private subnets
+8. 
 
+A Virtual Private Cloud with Public and private subnets
+Internet Gateway to contact the outer world
+Security groups for RDS Postgres and for ECS
+A Load balancer distributing traffic between containers & database
+RDS Postgres instance
+Auto scaling group for ECS cluster with launch configuration
+ECS cluster with task and service definition
+
+### Commands -
+1. terraform init -backend-config="./env/baseinfra-prod.config"
+2. terraform plan -var-file="production.tfvars" -out="production.tfplan"
+3. terraform apply -var-file="production.tfvars"
 

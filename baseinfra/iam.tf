@@ -14,3 +14,8 @@ resource "aws_iam_role" "ecs-cluster-role" {
             ]
         })
 }
+
+resource "aws_iam_role_policy_attachment" "ecs-cluster-policy-attachment" {
+    role       = aws_iam_role.ecs-cluster-role.name
+    policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+}
