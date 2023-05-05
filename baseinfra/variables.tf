@@ -57,7 +57,7 @@ variable "frontend_port" {
 
 variable "rds_port" {
   description = "value of the postgres port"
-  default     = 5432
+  default     = 3306
 }
 
 variable "rds_identifier" {

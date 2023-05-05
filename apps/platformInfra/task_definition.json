@@ -1,0 +1,76 @@
+[
+    {
+        "name": "${spring_boot_container_1}",
+        "image": "${docker_image_url_1}",
+        "essential": true,
+        "environment": [
+            {
+                "name": "SPRING_PROFILES_ACTIVE",
+                "value": "${spring_profiles_1}"
+            }
+        ],
+        "portMappings": [
+            {
+                "containerPort": 8080
+            }
+        ],
+        "memoryReservation": 512,
+        "cpu": 256,
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "${ecs_service_name_1}-LogGroup",
+                "awslogs-region": "${region}",
+                "awslogs-stream-prefix": "${ecs_service_name_1}-LogGroupLogStream"
+            }
+        }
+    },
+    {
+        "name": "${spring_boot_container_2}",
+        "image": "${docker_image_url_2}",
+        "essential": true,
+        "environment": [
+            {
+                "name": "SPRING_PROFILES_ACTIVE",
+                "value": "${spring_profiles_2}"
+            }
+        ],
+        "portMappings": [
+            {
+                "containerPort": 8081
+            }
+        ],
+        "memoryReservation": 512,
+        "cpu": 256,
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "${ecs_service_name_2}-LogGroup",
+                "awslogs-region": "${region}",
+                "awslogs-stream-prefix": "${ecs_service_name_2}-LogGroupLogStream"
+            }
+        }
+    },
+    {
+        "name": "${frontend_container}",
+        "image": "${frontend_image_url}",
+        "essential": true,
+        "portMappings": [
+            {
+                "containerPort": 80
+            }
+        ],
+        "environment": [
+            {
+                "name": "API_ENDPOINT_1",
+                "value": "http://${spring_boot_container_1}:8080"
+            },
+            {
+                "name": "API_ENDPOINT_2",
+                "value": "http://${spring_boot_container_2}:8081"
+            }
+        ],
+        "memoryReservation": 512,
+        "cpu": 256
+    }
+]
