@@ -2,7 +2,6 @@
 resource "aws_vpc" "main" {
     cidr_block              = "${var.vpc_cidr_block}"
     enable_dns_hostnames    = true
-
     tags = {
         Name                = "${var.environment}-vpc"
     }
@@ -24,8 +23,6 @@ resource "aws_subnet" "public-subnet-1b" {
     vpc_id              = aws_vpc.main.id
     cidr_block          = var.public_subnet_1b_cidr_block
     availability_zone   = "us-east-1b"
-    
-
     tags = {
         Name            = "${var.environment}-public-subnet-1b"
     }
@@ -36,11 +33,9 @@ resource "aws_subnet" "private-subnet-1a" {
     vpc_id              = aws_vpc.main.id
     cidr_block          = var.private_subnet_1a_cidr_block
     availability_zone   = "us-east-1a"
-
     tags = {
         Name            = "${var.environment}-private-subnet-1a"
     }
-  
 }
 
 resource "aws_subnet" "private-subnet-1b" {
@@ -99,7 +94,7 @@ resource "aws_route_table_association" "private-subnet-1b" {
 # Elastic IP for NAT Gateway
 resource "aws_eip" "elastic-ip-for-nat-gateway" {
     vpc                         = true
-    associate_with_private_ip   = var.elastic_ip_for_nat_gateway
+    associate_with_private_ip   = var.private_ip_for_nat_gateway
 
     tags = {
       Name = "${var.environment}-EIP-for-NAT-Gateway"

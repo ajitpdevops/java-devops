@@ -12,7 +12,7 @@ resource "aws_db_subnet_group" "db_subnet_group" {
 
 resource "aws_db_parameter_group" "db-parameter-group" {
   name        = "postgres-db-parameter-group"
-  family      = "postgres12"
+  family      = "postgres15"
   description = "postgres db parameter group"
 
   parameter {
@@ -43,8 +43,10 @@ resource "aws_db_instance" "rds-instance" {
   engine_version              = var.rds_engine_version
   instance_class              = var.rds_instance_class
   db_name                     = var.rds_database_name
-  username                    = var.rds_username
-  password                    = var.rds_password
+  # username                    = var.local.db_creds.username
+  # password                    = var.local.db_creds.password
+  username                    = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["username"]
+  password                    = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["password"]
   port                        = var.rds_port
   publicly_accessible         = var.rds_public_access
   allow_major_version_upgrade = false
@@ -59,5 +61,7 @@ resource "aws_db_instance" "rds-instance" {
   tags = {
     Name = "${var.rds_identifier}-db-instance"
   }
+
+  depends_on = [ aws_secretsmanager_secret_version.sversion ]
 
 }

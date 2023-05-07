@@ -32,7 +32,7 @@ output "public_subnets" {
 
 
 output "rds_endpoint" {
-  value = aws_db_instance.rds-endpoint.endpoint
+  value = aws_db_instance.rds-instance.endpoint
 }
 
 output "ecs_alb_listener_arn" {
@@ -59,3 +59,6 @@ output "ecs_cluster_role_arn" {
   value = aws_iam_role.ecs-cluster-role.arn
 }
 
+output "secret_string" {
+  value = jsondecode(nonsensitive(data.aws_secretsmanager_secret_version.creds.secret_string))
+}

@@ -1,6 +1,5 @@
 
 # Create a security group for ALB
-
 resource "aws_security_group" "alb-sg" {
   name        = "ALB Security Group"
   description = "Allow HTTP Traffic to ALB"
@@ -38,22 +37,22 @@ resource "aws_security_group" "ecs-sg" {
 
   ingress {
     description     = "Allow inbound traffic for first app"
-    from_port       = var.spring_1_port
-    to_port         = var.spring_1_port
+    from_port       = var.microservices_1_port
+    to_port         = var.microservices_1_port
     protocol        = "tcp"
     security_groups = [aws_security_group.alb-sg.id]
   }
   ingress {
     description     = "Allow all inbound traffic for second app"
-    from_port       = var.spring_2_port
-    to_port         = var.spring_2_port
+    from_port       = var.microservices_2_port
+    to_port         = var.microservices_2_port
     protocol        = "tcp"
     security_groups = [aws_security_group.alb-sg.id]
   }
   ingress {
     description     = "Allow all inbound traffic frontend app"
-    from_port       = var.frontend_port
-    to_port         = var.frontend_port
+    from_port       = var.microservices_3_port
+    to_port         = var.microservices_3_port
     protocol        = "tcp"
     security_groups = [aws_security_group.alb-sg.id]
   }
@@ -81,6 +80,17 @@ resource "aws_security_group" "rds-sg" {
     to_port         = var.rds_port
     protocol        = "tcp"
     security_groups = [aws_security_group.ecs-sg.id]
+  }
+
+  # Allow inbound access from Anywhere 
+  # REMOVE THIS BEFORE PRODUCTION
+  ingress {
+    description      = "Allow inbound traffic from anywhere"
+    from_port        = var.rds_port
+    to_port          = var.rds_port
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   egress {
