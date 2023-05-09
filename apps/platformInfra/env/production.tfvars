@@ -1,15 +1,39 @@
+# Remote State 
 remote_state_key="PROD/baseinfra.tfstate"
 remote_state_bucket="ecs-terraform-backend-state"
 
-service_name = "springbootapp"
+# Environment & Region
 environment = "prod"
-desired_task_count = "2"
-launch_type = "FARGATE"
 aws_region = "us-east-1"
-memory = 2048
-cpu = 1024
 
-docker_image_url_1 = "whoajitpatil/src-coupon-app:latest"
-docker_image_url_2 = "whoajitpatil/src-product-app:latest"
-frontend_image_url = "nginx:latest"
-frontend_container_port = 80
+# Common Service Parameters 
+desired_task_count = "2"
+
+
+# Manage Microservices 
+microservices = {
+  cloudline-backend = {
+    image_url     = "your-image-url-1"
+    container_port  = 8080
+    spring_profiles = "dev"
+    per_container_cpu = 512
+    per_container_memory = 1024
+    health_check_path = "/api/health"
+  },
+  cloudline-auth = {
+    image_url     = "your-image-url-2"
+    container_port  = 8081
+    spring_profiles = "test"
+    per_container_cpu = 1024
+    per_container_memory = 2048
+    health_check_path = "/auth/health"
+  },
+  cloudline-frontend = {
+    image_url     = "your-image-url-3"
+    container_port  = 3000
+    spring_profiles = "prod"
+    per_container_cpu = 512
+    per_container_memory = 1024
+    health_check_path = "/health"
+  }
+}
