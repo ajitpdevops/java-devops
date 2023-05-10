@@ -1,9 +1,37 @@
 {
     "java.configuration.runtimes": [
         {
-          "name": "JavaSE-11",
-          "path": "/usr/lib/jvm/java-11-openjdk-amd64",
+          "name": "JavaSE-17",
+          "path": "/usr/lib/jvm/jdk-17",
           "default": true
         },
+      ],
+      "java.compile.nullAnalysis.mode": "automatic",
+      "sqltools.connections": [
+        {
+          "previewLimit": 50,
+          "server": "localhost",
+          "port": 5432,
+          "askForPassword": true,
+          "driver": "PostgreSQL",
+          "name": "localhost",
+          "group": "TEST",
+          "database": "mydb",
+          "username": "postgres"
+        },
+        {
+          "mysqlOptions": {
+            "authProtocol": "default"
+          },
+          "previewLimit": 50,
+          "server": "localhost",
+          "port": 3310,
+          "driver": "MySQL",
+          "name": "mysql",
+          "group": "test2",
+          "database": "mydb",
+          "username": "admin",
+          "askForPassword": true
+        }
       ]
     }
