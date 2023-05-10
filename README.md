@@ -74,6 +74,9 @@
     - Spring JPA for Data
     - MySQL Driver 
     - Spring web 
+    - Postgres driver [for postgres datasource]
+3. To Run the database image in isolation
+    - sudo docker run --name postgresdb -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -d postgres
 
 ## Building the projects in Maven containers - 
 1. To build the couponservice app, execute [docker-compose run --rm mvn-coupon clean package -DskipTests]

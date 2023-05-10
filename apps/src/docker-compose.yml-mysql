@@ -44,25 +44,25 @@ services:
     command: clean install
 
   web-db:
-    image: postgres:15.2
+    image: mysql:5.6
     container_name: web-db
-    restart: always
+    mem_limit: 2G
+    mem_reservation: 2G
     ports:
-      - "5432:5432"
-    expose:
-      - 5432
+      - "3010:3010"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-
-  db:
-    image: postgres
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_DB=mydb
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - MYSQL_DATABASE=sample
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=supersecret
+      - MYSQL_ROOT_PASSWORD=supersecret
+    volumes:
+      - ./docker/mysql/sql:/docker-entrypoint-initdb.d/
+      - ./docker/mysql/datadir:/var/lib/mysql
+    command: "--default-authentication-plugin=mysql_native_password --lower_case_table_names=1 --character-set-server=utf8 --bind-address 0.0.0.0 --port 3010"
+    healthcheck:
+          test: "/etc/init.d/mysql status -P3310"
+          interval: 2s
+          retries: 10
 
   coupon-app:
     build: 
@@ -76,7 +76,7 @@ services:
     ports:
       - "8090:8090"
     depends_on:
-      - db
+      - web-db
 
   product-app:
     build: 
@@ -88,4 +88,5 @@ services:
     ports:
       - "8091:8091"
     depends_on:
-      - db
+      - web-db
+      - coupon-app
