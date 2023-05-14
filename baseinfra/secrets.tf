@@ -2,13 +2,13 @@
 resource "random_password" "password" {
   length           = 16
   special          = true
-  override_special = "_%@"
+  override_special = "_%$"
 }
  
 # Creating a AWS secret for database master account (Masteraccoundb)
  
 resource "aws_secretsmanager_secret" "secretmasterDB" {
-   name = "masteraccoundb"
+   name = "dbmastercreds"
 }
  
 # Creating a AWS secret versions for database master account (Masteraccoundb)
@@ -17,7 +17,7 @@ resource "aws_secretsmanager_secret_version" "sversion" {
   secret_id = aws_secretsmanager_secret.secretmasterDB.id
   secret_string = <<EOF
    {
-    "username": "postgresadmin",
+    "username": "cloudinitservice",
     "password": "${random_password.password.result}"
    }
 EOF

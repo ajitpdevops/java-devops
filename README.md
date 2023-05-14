@@ -82,6 +82,8 @@
 1. To build the couponservice app, execute [docker-compose run --rm mvn-coupon clean package -DskipTests]
 2. To build the productservice app, execute [docker-compose run --rm mvn-product clean package -DskipTests]
 
+## Run all microservice together with Docker-Compose 
+docker-compose up product-app
 
 ## Postman calls to create Coupon & Products
 - Create a coupon 
@@ -99,10 +101,22 @@
     "couponCode": "XMAS"
 }
 
-## ECR Login 
+# Build the images using docker compose 
+docker compose build --no-cache coupon-app
+docker compose build --no-cache product-app
+
+## ECR Login and push images to ECR
 
 - aws ecr get-login-password --region region | docker login --username AWS --password-stdin 243302161856.dkr.ecr.us-east-1.amazonaws.com
 - docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 243302161856.dkr.ecr.us-east-1.amazonaws.com
+
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 243302161856.dkr.ecr.us-east-1.amazonaws.com
+docker images
+docker tag src-product-app:latest 243302161856.dkr.ecr.us-east-1.amazonaws.com/product:latest
+docker push 243302161856.dkr.ecr.us-east-1.amazonaws.com/product:latest
+
+docker tag src-coupon-app:latest 243302161856.dkr.ecr.us-east-1.amazonaws.com/coupon:latest
+docker push 243302161856.dkr.ecr.us-east-1.amazonaws.com/coupon:latest
 
 
 ## Setting up Terraform Automation
@@ -131,8 +145,41 @@ ECS cluster with task and service definition
 
 ### Commands -
 1. terraform init -backend-config="./env/baseinfra-prod.config"
-2. terraform plan -var-file="production.tfvars" -out="production.tfplan"
-3. terraform apply -var-file="production.tfvars"
+2. terraform plan -var-file="./env/production.tfvars" -out="production.tfplan"
+3. terraform apply -var-file="./env/production.tfvars"
 4. terraform destroy -var-file="production.tfvars"
 
 updating Security Group (sg-08770c64a8fd42396) ingress rules: updating rules: from_port (80) and to_port (80) must both be 0 to use the 'ALL' "-1" protocol!
+
+
+## Setting up Terraform Automation for Base Infrastructure
+
+1. Set up the provider 
+2. Setting up Networking components 
+    - Setup VPC 
+    - Setup Internet Gateway - IGW & Route table association
+    - Public Subnet - 2, Route Table, Route table association 
+    - Private Subnets - 2, Route Table, Route table association 
+    - Elastic IP for Nat Gatway 
+    - Nat Gateway - NGW & Route table association 
+3. Security Group for ALB allows port 80 traffic from anywhere
+4. Security Group for ECS Clusters [8080, 8081, 3000]
+5. Security Group for Postgres RDS [5432]
+6. ECS Cluster - 1 new cluster
+7. ECR - 3 repositories for 3 microservices
+8. RDS - Create a Postgres RDS Instance within private subnets
+9. AWS Secret - Random string generated for RDS and pass it to aws_db_instance resource
+10. IAM Roles - IAM Role to create with ECS Cluster Creation
+11. IAM Role for Task Execution
+11. Load Balancer - Created the following for Load balancer
+    - ALB - Application Load Balancer
+    - Target Group - Target group for 80
+    - Listener for 443
+
+## Setting up Platform Infra Automation
+- LB Target group LB for each microservice
+- LB Listener Rule for each microservice
+- ECS Task Defition each microservice
+- ECS Service for each microservice
+- Cloudwatch log group for each microservices
+- Autoscaling [Needs to be configured]

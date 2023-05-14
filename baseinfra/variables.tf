@@ -8,18 +8,6 @@ variable "environment" {
   description = "Environment name used a sprefix"
 }
 
-variable "microservices_1" {
-  default = "springboot-1-service"
-}
-
-variable "microservices_2" {
-  default = "springboot-2-service"
-}
-
-variable "microservices_3" {
-  default = "frontend-service"
-}
-
 
 variable "vpc_cidr_block" {
   default     = "10.0.0.0/16"
@@ -57,14 +45,12 @@ variable "microservices_1_port" {
   default     = 8080
 }
 
-variable "microservices_2_port" {
-  description = "value of the spring boot app 2 port"
-  default     = 8081
-}
 
-variable "microservices_3_port" {
-  description = "value of the frontend app port"
-  default     = 3000
+variable "microservices" {
+  type = map(object({
+    container_port        = number
+  }))
+  description = "A map of microservices to be deployed"
 }
 
 variable "rds_port" {
@@ -122,11 +108,6 @@ variable "final_snapshot_identifier" {
   default     = "postgres-final-snapshot"
 }
 
-variable "ecs_cluster_name" {
-  description = "value of the ecs cluster name"
-  default     = "app-ecs-cluster"
-}
-
 
 variable "lb_certificate_arn" {
   description = "value of the lb certificate arn"
@@ -135,8 +116,4 @@ variable "lb_certificate_arn" {
 variable "container_insights" {
   description = "value of the container insights"
   default     = true
-}
-
-variable "secret_arn" {
-  description = "value of secret arn"
 }
