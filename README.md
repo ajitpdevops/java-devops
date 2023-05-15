@@ -118,6 +118,9 @@ docker push 243302161856.dkr.ecr.us-east-1.amazonaws.com/product:latest
 docker tag src-coupon-app:latest 243302161856.dkr.ecr.us-east-1.amazonaws.com/coupon:latest
 docker push 243302161856.dkr.ecr.us-east-1.amazonaws.com/coupon:latest
 
+docker run --name postgresdb -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres --network microservices -d postgres
+
+docker run --name coupon-serv -p 8081:8080 -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgresdb:5432/postgres -e SPRING_DATASOURCE_USERNAME=postgres -e SPRING_DATASOURCE_PASSWORD=postgres -e SPRING_PORT=8080 --network microservices -d 243302161856.dkr.ecr.us-east-1.amazonaws.com/coupon
 
 ## Setting up Terraform Automation
 1. Set up the provider 
