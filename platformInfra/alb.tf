@@ -1,7 +1,7 @@
 resource "aws_lb_target_group" "microservices" {
   for_each = var.microservices
 
-  name_prefix     = each.key
+  name            = each.key
   port            = each.value.container_port
   protocol        = "HTTP"
   vpc_id          = data.terraform_remote_state.baseinfra.outputs.vpc_id
@@ -22,7 +22,7 @@ resource "aws_lb_target_group" "microservices" {
   }
 }
 
-resource "aws_lb_listener" "microservices" {
+resource "aws_lb_listener_rule" "microservices" {
   for_each = var.microservices
 
   listener_arn = data.terraform_remote_state.baseinfra.outputs.ecs_alb_listener_arn
@@ -33,9 +33,14 @@ resource "aws_lb_listener" "microservices" {
     target_group_arn = aws_lb_target_group.microservices[each.key].arn
   }
 
-  condition {
-    field  = "path-pattern"
-    values = ["/${each.value.health_check_path}/*"]
-  }
+  # condition {
+  #   field  = "path-pattern"
+  #   values = ["/${each.key}/*"]
+  # }
 
+  condition {
+    path_pattern {
+      values = [ "/${each.key}api/*" ]
+    }
+  }
 }

@@ -59,6 +59,31 @@ output "ecs_cluster_role_arn" {
   value = aws_iam_role.ecs-cluster-role.arn
 }
 
+output "ecs_task_execution_role_arn" {
+  value = aws_iam_role.ecs_task_execution_role.arn
+}
+
 output "secret_string" {
   value = jsondecode(nonsensitive(data.aws_secretsmanager_secret_version.creds.secret_string))
+}
+
+# Output the secret manger arn 
+output "secret_manager_arn" {
+  value = aws_secretsmanager_secret.secretmasterDB.arn
+}
+
+output "ecs-sg-id" {
+  value = aws_security_group.ecs-sg.id
+}
+
+# output "ecr_repositories" {
+#   value = aws_ecr_repository.microservices
+# }
+
+# Output the ecr_repositories created in aws_ecr_repository block
+
+output "ecr_repositories" {
+  value = {
+    for key, repository in aws_ecr_repository.microservices : key => repository.repository_url
+  }
 }

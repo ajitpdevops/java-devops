@@ -22,8 +22,10 @@ public class ProductRestController {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	@Value("${couponService.url}")
-	private String couponServiceURL;
+	// @Value("${couponService.url}")
+	// private String couponServiceURL;
+
+    private String couponServiceURL = System.getenv("COUPON_SERVICE_URL");
 
     @RequestMapping(value = "/products", method = RequestMethod.POST)
     public Product create(@RequestBody Product product) {
