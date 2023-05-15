@@ -1,0 +1,28 @@
+[ 
+    {
+        "name": "${microservice_3}",
+        "image": "${microservice_image_url_3}",
+        "essential": true,
+        "environment": [
+            {
+                "name": "SPRING_PROFILES_ACTIVE",
+                "value": "${spring_profiles_3}"
+            }
+        ],
+        "portMappings": [
+            {
+                "containerPort": "${container_port_3}",
+                "hostPort": "${container_port_3}",
+                "protocol": "tcp"
+            }
+        ],
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "${ecs_service_name_3}-LogGroup",
+                "awslogs-region": "${region}",
+                "awslogs-stream-prefix": "${ecs_service_name_3}-LogGroupLogStream"
+            }
+        }
+    }
+]
