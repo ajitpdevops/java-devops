@@ -8,7 +8,7 @@ resource "aws_iam_role" "ecs-cluster-role" {
         Effect = "Allow"
         Sid    = ""
         Principal = {
-          Service = ["ecs.amazonaws.com", "ec2.amazonaws.com", "application-autoscaling.amazonaws.com"]
+          Service = ["ecs.amazonaws.com", "ec2.amazonaws.com", "application-autoscaling.amazonaws.com", "ecs-tasks.amazonaws.com"]
         }
       },
     ]
