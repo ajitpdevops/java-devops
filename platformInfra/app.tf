@@ -34,14 +34,6 @@ resource "aws_ecs_task_definition" "microservices" {
           "name" : "SPRING_PORT",
           # "value" : "${each.value.container_port}"
           "value" : format("%v", each.value.container_port)
-        },
-        {
-          "name" : "COUPON_SERVICE_URL",
-          "value" : "http://${data.terraform_remote_state.baseinfra.outputs.alb-dns-name}/couponapi/coupons/"
-        },
-        {
-          "name" : "PRODUCT_SERVICE_URL",
-          "value" : "http://${data.terraform_remote_state.baseinfra.outputs.alb-dns-name}/productapi/products"
         }
       ],
       "portMappings" : [

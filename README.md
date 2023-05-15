@@ -182,4 +182,12 @@ updating Security Group (sg-08770c64a8fd42396) ingress rules: updating rules: fr
 - ECS Task Defition each microservice
 - ECS Service for each microservice
 - Cloudwatch log group for each microservices
-- Autoscaling [Needs to be configured]
+- Autoscaling group for each microservice
+    - Autoscaling policy for memory utilization
+    - Autoscaling policy for CPU utilization
+
+
+terraform apply -target="aws_db_instance.*" -target="aws_secretsmanager_secret.*"
+
+terraform apply -target="aws_db_instance.*" -target="aws_secretsmanager_secret.*" -target="random_password.*" -target="aws_secretsmanager_secret_version.*"
+terraform plan -target="aws_db_instance.*" -target="aws_secretsmanager_secret.*" -target="random_password.*" -target="aws_secretsmanager_secret_version.*"

@@ -7,6 +7,14 @@ resource "aws_ecr_repository" "microservices" {
     image_scanning_configuration {
         scan_on_push = true
     }
+
+    lifecycle {
+        ignore_changes = [ 
+            image_tag_mutability,
+            image_scanning_configuration 
+            ]
+    }
+
     tags = {
         Name = "${each.key}-app"
     }

@@ -9,17 +9,6 @@
       "java.compile.nullAnalysis.mode": "automatic",
       "sqltools.connections": [
         {
-          "previewLimit": 50,
-          "server": "localhost",
-          "port": 5432,
-          "askForPassword": true,
-          "driver": "PostgreSQL",
-          "name": "localhost",
-          "group": "TEST",
-          "database": "mydb",
-          "username": "postgres"
-        },
-        {
           "mysqlOptions": {
             "authProtocol": "default"
           },
@@ -32,6 +21,17 @@
           "database": "mydb",
           "username": "admin",
           "askForPassword": true
+        },
+        {
+          "previewLimit": 50,
+          "server": "localhost",
+          "port": 5432,
+          "askForPassword": true,
+          "driver": "PostgreSQL",
+          "name": "localhost",
+          "group": "TEST",
+          "database": "postgres",
+          "username": "postgres"
         }
       ]
     }
