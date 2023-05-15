@@ -27,10 +27,6 @@ resource "aws_ecs_task_definition" "microservices" {
           "value" : local.db_creds["username"]
         },
         {
-          "name" : "SPRING_DATASOURCE_PASSWORD",
-          "value" : local.db_creds["password"]
-        },
-        {
           "name" : "SPRING_PORT",
           # "value" : "${each.value.container_port}"
           "value" : format("%v", each.value.container_port)
