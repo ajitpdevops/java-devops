@@ -61,5 +61,10 @@
 
 
 # Common Consideration
-1. java 11
-2. 
+1. java 17
+2. image tagging | tag from the github 
+3. java 
+
+
+# Future Enhancements
+1. GitHub to AWS Communication using OIDC 
