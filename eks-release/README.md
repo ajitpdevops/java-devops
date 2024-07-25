@@ -1,0 +1,1 @@
+This is where all EKS release manifests are stored. The manifests are organized by release version. Each release version directory contains the following subdirectories:
