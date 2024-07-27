@@ -1,0 +1,33 @@
+services:
+  jenkins-master:
+    image: jenkins/jenkins:lts
+    container_name: jenkins-master
+    ports:
+      - "9001:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins-master:/var/jenkins_home
+    networks:
+      - jenkins
+
+  jenkins-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.agent # Specify the Dockerfile name if it's different from 'Dockerfile'
+    container_name: jenkins-agent
+    environment:
+      - JENKINS_URL=http://jenkins-master:8080
+      - JENKINS_AGENT_NAME=agent
+      - JENKINS_AGENT_WORKDIR=/home/jenkins/agent
+      - JENKINS_SECRET=4d23ca4cccfde72f2cab40a8f1d3146cbdda2b44070ba0310eb837260f9db16e
+    volumes:
+      - jenkins-agent:/home/jenkins/agent
+    networks:
+      - jenkins
+
+volumes:
+  jenkins-master:
+  jenkins-agent:
+
+networks:
+  jenkins:
