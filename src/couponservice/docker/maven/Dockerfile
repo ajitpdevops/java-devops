@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM openjdk:17 as base 
 
 # ARGUMENTS
 ARG MAVEN_VERSION=3.6.3
@@ -22,3 +22,5 @@ ENV PATH="$JAVA_HOME/bin:$MAVEN_HOME:${PATH}"
 
 ENTRYPOINT [ "mvn" ]
 #CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
+
+
