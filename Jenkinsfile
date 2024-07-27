@@ -89,7 +89,7 @@ pipeline {
             steps {
                 script {
                     sh 'pwd'
-                    sh 'cd src/${SERVICE_NAME}'
+                    sh 'cd couponservice/src/${SERVICE_NAME}'
                     sh 'mvn clean package'
                 }
             }
