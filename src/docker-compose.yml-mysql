@@ -1,0 +1,92 @@
+version: "2.4"
+
+services:
+  mvn-coupon:
+    build:
+      context: .
+      dockerfile: ./couponservice/docker/maven/Dockerfile
+    container_name: mvn-coupon
+    platform: linux
+    isolation: default
+    mem_limit: 2G
+    mem_reservation: 2G
+    environment:
+      - TZ=America/Chicago
+      - LC_ALL=en_US
+      - JAVA_OPTS=-Xmx2g -Xms2g
+      - MAVEN_OPTS=-Xmx2g -Xms2g
+    volumes:
+      - .m2:/root/.m2
+      - ./couponservice:/repo
+    working_dir: /repo
+    entrypoint: mvn -B
+    command: clean install
+
+  mvn-product:
+    build:
+      context: .
+      dockerfile: ./productservice/docker/maven/Dockerfile
+    container_name: mvn-product
+    platform: linux
+    isolation: default
+    mem_limit: 2G
+    mem_reservation: 2G
+    environment:
+      - TZ=America/Chicago
+      - LC_ALL=en_US
+      - JAVA_OPTS=-Xmx2g -Xms2g
+      - MAVEN_OPTS=-Xmx2g -Xms2g
+    volumes:
+      - .m2:/root/.m2
+      - ./productservice:/repo
+    working_dir: /repo
+    entrypoint: mvn -B
+    command: clean install
+
+  web-db:
+    image: mysql:5.6
+    container_name: web-db
+    mem_limit: 2G
+    mem_reservation: 2G
+    ports:
+      - "3010:3010"
+    environment:
+      - MYSQL_DATABASE=sample
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=supersecret
+      - MYSQL_ROOT_PASSWORD=supersecret
+    volumes:
+      - ./docker/mysql/sql:/docker-entrypoint-initdb.d/
+      - ./docker/mysql/datadir:/var/lib/mysql
+    command: "--default-authentication-plugin=mysql_native_password --lower_case_table_names=1 --character-set-server=utf8 --bind-address 0.0.0.0 --port 3010"
+    healthcheck:
+          test: "/etc/init.d/mysql status -P3310"
+          interval: 2s
+          retries: 10
+
+  coupon-app:
+    build: 
+      context: .
+      dockerfile: ./couponservice/docker/service/Dockerfile
+    environment:
+      - TZ=America/Chicago
+    container_name: coupon-app
+    mem_limit: 1G
+    mem_reservation: 1G
+    ports:
+      - "8090:8090"
+    depends_on:
+      - web-db
+
+  product-app:
+    build: 
+      context: .
+      dockerfile: ./productservice/docker/service/Dockerfile
+    container_name: product-app
+    mem_limit: 1G
+    mem_reservation: 1G
+    ports:
+      - "8091:8091"
+    depends_on:
+      - web-db
+      - coupon-app
