@@ -1,0 +1,22 @@
+# Use the Jenkins inbound agent image as the base image
+FROM jenkins/inbound-agent:latest
+
+# Switch to root user to install OpenJDK 17 and Maven
+USER root
+
+# Install OpenJDK 17
+RUN apt-get update && \
+    apt-get install -y openjdk-17-jdk && \
+    apt-get clean
+
+# Install Maven
+RUN apt-get update && \
+    apt-get install -y maven && \
+    apt-get clean
+
+# Set JAVA_HOME environment variable
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
+
+# Switch back to Jenkins user
+USER jenkins
