@@ -49,13 +49,12 @@ pipeline {
                             )
                         }
                     }
-
                 }
-
+            }
         }
         stage('Deploy') {
             steps {
-                sh 'mvn clean package'
+                sh 'echo mvn clean package'
             }
         }
     }
