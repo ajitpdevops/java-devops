@@ -90,6 +90,8 @@ pipeline {
                 script {
                     sh 'pwd'
                     sh 'cd couponservice/src/${SERVICE_NAME}'
+                    sh 'echo Listing Directory Contents'
+                    sh 'ls -la'
                     sh 'mvn clean package'
                 }
             }
