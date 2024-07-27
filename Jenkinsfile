@@ -88,7 +88,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh 'echo pwd'
+                    sh 'pwd'
                     sh 'cd src/${SERVICE_NAME}'
                     sh 'mvn clean package'
                 }
