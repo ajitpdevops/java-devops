@@ -4,13 +4,13 @@ pipeline {
     }
     parameters {
         string(name: 'Service', defaultValue: 'couponservice', description: 'Service Name')
-        booleanParam(name: 'SkipPull', defaultValue: false, description: 'Skip Pull from SCM')
+        // booleanParam(name: 'SkipPull', defaultValue: false, description: 'Skip Pull from SCM')
     }
     environment {
         GIT_CREDENTIALS = '5f03c196-0173-4c72-84a7-44092e117cd7'
         REPO_URL = 'https://github.com/ajitpdevops/java-devops.git'
         BRANCH = 'main'
-        SERVICE_NAME = '${env.Service}'
+        SERVICE_NAME = "${params.Service}"
     }
     tools {
         maven 'Maven3'
