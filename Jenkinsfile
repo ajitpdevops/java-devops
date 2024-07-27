@@ -21,7 +21,7 @@ pipeline {
         stage('Checkout from SCM') {
             when { not { environment name: 'SkipPull', value: 'true' } } 
             parallel {
-                stage('${SERVICE_NAME} Checkout') {
+                stage('couponservice checkout') {
                     when { expression { SERVICE_NAME == 'couponservice' } }
                     environment {
                         REPO_PATH = "src/${SERVICE_NAME}"
@@ -34,7 +34,36 @@ pipeline {
                                     browser: [$class: 'GithubWeb', repoUrl: "${REPO_URL}"],
                                     doGenerateSubmoduleConfigurations: false,
                                     extensions: [
-                                        [$class: 'CloneOption', honorRefspec: true, noTags: false, reference: '', shallow: false, timeout: 60],
+                                        // [$class: 'CloneOption', honorRefspec: true, noTags: false, reference: '', shallow: false, timeout: 60],
+                                        [$class: 'SparseCheckoutPaths', 
+                                            sparseCheckoutPaths: [
+                                                [path: "${REPO_PATH}"]
+                                        ]],
+                                        [$class: 'CleanBeforeCheckout']
+                                    ],
+                                    userRemoteConfigs: [[
+                                        credentialsId: "${GIT_CREDENTIALS}", 
+                                        url: "${REPO_URL}"
+                                        ]]
+                                ]
+                            )
+                        }
+                    }
+                }
+                stage('productservice checkout') {
+                    when { expression { SERVICE_NAME == 'productservice' } }
+                    environment {
+                        REPO_PATH = "src/${SERVICE_NAME}"
+                    }
+                    steps {
+                        dir(SERVICE_NAME) {
+                            checkout(poll: false, changelog: true,
+                                scm: [
+                                    $class: 'GitSCM', branches: [[name: "${BRANCH}"]],
+                                    browser: [$class: 'GithubWeb', repoUrl: "${REPO_URL}"],
+                                    doGenerateSubmoduleConfigurations: false,
+                                    extensions: [
+                                        // [$class: 'CloneOption', honorRefspec: true, noTags: false, reference: '', shallow: false, timeout: 60],
                                         [$class: 'SparseCheckoutPaths', 
                                             sparseCheckoutPaths: [
                                                 [path: "${REPO_PATH}"]
