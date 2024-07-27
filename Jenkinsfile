@@ -89,10 +89,7 @@ pipeline {
             steps {
                 script {
                     sh 'pwd'
-                    sh 'cd couponservice/src/${SERVICE_NAME}'
-                    sh 'echo Listing Directory Contents'
-                    sh 'ls -la'
-                    sh 'mvn clean package'
+                    sh 'mvn -f couponservice/src/couponservice/pom.xml clean package'
                 }
             }
         }
