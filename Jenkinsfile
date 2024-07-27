@@ -6,7 +6,7 @@ pipeline {
         GIT_CREDENTIALS = '5f03c196-0173-4c72-84a7-44092e117cd7'
         REPO_URL = 'https://github.com/ajitpdevops/java-devops.git'
         BRANCH = 'main'
-        SERVICE_NAME = 'couponservice' // Change this to the desired service
+        SERVICE_NAME = env.Service
     }
     tools {
         maven 'Maven3'
@@ -83,7 +83,11 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'echo mvn clean package'
+                script {
+                    sh 'echo pwd'
+                    sh 'cd src/${SERVICE_NAME}'
+                    sh 'mvn clean package'
+                }
             }
         }
     }
