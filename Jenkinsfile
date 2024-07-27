@@ -58,15 +58,4 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            'Build Completed'
-        }
-        success {
-            'Build Success'
-        }
-        failure {
-            'Build Failed'
-        }
-    }
 }
