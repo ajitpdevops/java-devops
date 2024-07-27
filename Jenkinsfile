@@ -19,28 +19,43 @@ pipeline {
             }
         }
         stage('Checkout from SCM') {
-            steps {
-                script {
-                    def repoPath = "src/${SERVICE_NAME}"
+            when { not { environment name: 'SkipPull', value: 'true' } } 
+            parallel {
+                stage('${SERVICE_NAME} Checkout') {
+                    when { expression { SERVICE_NAME == 'couponservice' } }
+                    environment {
+                        REPO_PATH = "src/${SERVICE_NAME}"
+                    }
+                    steps {
+                        dir(SERVICE_NAME) {
+                            checkout(poll: false, changelog: true,
+                                scm: [
+                                    $class: 'GitSCM', branches: [[name: "${BRANCH}"]],
+                                    browser: [$class: 'GithubWeb', repoUrl: "${REPO_URL}"],
+                                    doGenerateSubmoduleConfigurations: false,
+                                    extensions: [
+                                        [$class: 'CloneOption', honorRefspec: true, noTags: false, reference: '', shallow: false, timeout: 60],
+                                        [$class: 'SparseCheckoutPaths', 
+                                            sparseCheckoutPaths: [
+                                                [path: "${REPO_PATH}"]
+                                        ]],
+                                        [$class: 'CleanBeforeCheckout']
+                                    ],
+                                    userRemoteConfigs: [[
+                                        credentialsId: "${GIT_CREDENTIALS}", 
+                                        url: "${REPO_URL}"
+                                        ]]
+                                ]
+                            )
+                        }
+                    }
 
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: '*/${BRANCH}']],
-                        extensions: [
-                            [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: repoPath]]],
-                            [$class: 'CleanBeforeCheckout']
-                        ],
-                        userRemoteConfigs: [[
-                            url: "${REPO_URL}",
-                            credentialsId: "${GIT_CREDENTIALS}"
-                        ]]
-                        ])
                 }
-            }
+
         }
         stage('Deploy') {
             steps {
-                sh 'mvn deploy'
+                sh 'mvn clean package'
             }
         }
     }
