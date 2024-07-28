@@ -104,7 +104,8 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv(credentialsId: 'sonarqube') {
-                        sh 'mvn -f couponservice/src/couponservice/pom.xml sonar:sonar'
+                        // sh 'mvn -f couponservice/src/couponservice/pom.xml sonar:sonar'
+                        sh 'mvn -f couponservice/src/couponservice/pom.xml verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=cyberlysafe_java-springboot-microservices'
                     }
                 }
             }
