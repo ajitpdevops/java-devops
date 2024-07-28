@@ -85,11 +85,27 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
+        // stage('Build Service') {
+        //     steps {
+        //         script {
+        //             sh 'pwd'
+        //             sh 'mvn -f couponservice/src/couponservice/pom.xml clean package'
+        //         }
+        //     }
+        // }
+        // stage('Test Service') {
+        //     steps {
+        //         script {
+        //             sh 'mvn -f couponservice/src/couponservice/pom.xml test'
+        //         }
+        //     }
+        // }
+        stage('SonarQube Analysis') {
             steps {
                 script {
-                    sh 'pwd'
-                    sh 'mvn -f couponservice/src/couponservice/pom.xml clean package'
+                    withSonarQubeEnv(credentialsId: 'sonarqube') {
+                        sh 'mvn -f couponservice/src/couponservice/pom.xml sonar:sonar'
+                    }
                 }
             }
         }
