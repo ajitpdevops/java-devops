@@ -54,7 +54,7 @@ pipeline {
             steps {
                 script {
                     sh 'pwd'
-                    sh 'mvn -f couponservice/src/couponservice/pom.xml clean package'
+                    sh 'mvn -f couponservice/src/couponservice/pom.xml clean package -Dspring.profiles.active=local'
                 }
             }
         }
