@@ -1,0 +1,33 @@
+# Use the official Docker-in-Docker image
+FROM docker:24.0.6-dind
+
+# Install OpenJDK and other necessary tools
+RUN apk add --no-cache openjdk17-jre curl git bash
+
+# Create a Jenkins user and set permissions
+RUN addgroup -S jenkins && adduser -S jenkins -G jenkins \
+    && mkdir -p /home/jenkins/agent \
+    && chown -R jenkins:jenkins /home/jenkins
+
+# Set the working directory
+WORKDIR /home/jenkins
+
+# Set the Jenkins user
+USER jenkins
+
+# Install Jenkins agent
+RUN curl -sO http://jenkins-master:8080/jnlpJars/agent.jar
+COPY agent.jar /usr/share/jenkins/agent.jar
+
+# Expose Docker socket to Jenkins agent
+VOLUME /var/run/docker.sock
+
+# Expose Jenkins agent work directory
+VOLUME /home/jenkins/agent
+
+# Copy the entrypoint script
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Start the Docker daemon in background
+CMD ["/usr/local/bin/entrypoint.sh"]
