@@ -21,4 +21,3 @@ ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 ENV PATH="$JAVA_HOME/bin:$MAVEN_HOME:${PATH}"
 
 ENTRYPOINT [ "mvn" ]
-#CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"

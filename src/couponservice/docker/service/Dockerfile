@@ -15,4 +15,4 @@ WORKDIR /app
 
 EXPOSE 8090
 
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
+ENTRYPOINT [ "java", "-Dspring.profiles.active=dev", "-jar", "app.jar" ]
