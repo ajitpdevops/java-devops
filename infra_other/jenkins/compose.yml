@@ -24,10 +24,23 @@ services:
       - jenkins-agent:/home/jenkins/agent
     networks:
       - jenkins
+  
+  # sonarqube:
+  #   image: sonarqube:9.9.6-community
+  #   container_name: sonarqube
+  #   environment:
+  #     - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+  #   ports:
+  #     - "9002:9000"
+  #   volumes:
+  #     - sonarqube:/opt/sonarqube/data
+  #   networks:
+  #     - jenkins
 
 volumes:
   jenkins-master:
   jenkins-agent:
+  # sonarqube:
 
 networks:
   jenkins:
