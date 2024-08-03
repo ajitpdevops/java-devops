@@ -4,7 +4,6 @@ pipeline {
     }
     parameters {
         string(name: 'Service', defaultValue: 'couponservice', description: 'Service Name')
-        // booleanParam(name: 'SkipPull', defaultValue: false, description: 'Skip Pull from SCM')
     }
     environment {
         GIT_CREDENTIALS = '5f03c196-0173-4c72-84a7-44092e117cd7'
@@ -24,87 +23,55 @@ pipeline {
         }
         stage('Checkout from SCM') {
             when { not { environment name: 'SkipPull', value: 'true' } } 
-            parallel {
                 stage('couponservice checkout') {
-                    when { expression { SERVICE_NAME == 'couponservice' } }
-                    environment {
-                        REPO_PATH = "src/${SERVICE_NAME}"
-                    }
-                    steps {
-                        dir(SERVICE_NAME) {
-                            checkout(poll: false, changelog: true,
-                                scm: [
-                                    $class: 'GitSCM', branches: [[name: "${BRANCH}"]],
-                                    browser: [$class: 'GithubWeb', repoUrl: "${REPO_URL}"],
-                                    doGenerateSubmoduleConfigurations: false,
-                                    extensions: [
-                                        // [$class: 'CloneOption', honorRefspec: true, noTags: false, reference: '', shallow: false, timeout: 60],
-                                        [$class: 'SparseCheckoutPaths', 
-                                            sparseCheckoutPaths: [
-                                                [path: "${REPO_PATH}"]
-                                        ]],
-                                        [$class: 'CleanBeforeCheckout']
-                                    ],
-                                    userRemoteConfigs: [[
-                                        credentialsId: "${GIT_CREDENTIALS}", 
-                                        url: "${REPO_URL}"
-                                        ]]
-                                ]
-                            )
-                        }
-                    }
+                when { expression { SERVICE_NAME == 'couponservice' } }
+                environment {
+                    REPO_PATH = "src/${SERVICE_NAME}"
                 }
-                stage('productservice checkout') {
-                    when { expression { SERVICE_NAME == 'productservice' } }
-                    environment {
-                        REPO_PATH = "src/${SERVICE_NAME}"
-                    }
-                    steps {
-                        dir(SERVICE_NAME) {
-                            checkout(poll: false, changelog: true,
-                                scm: [
-                                    $class: 'GitSCM', branches: [[name: "${BRANCH}"]],
-                                    browser: [$class: 'GithubWeb', repoUrl: "${REPO_URL}"],
-                                    doGenerateSubmoduleConfigurations: false,
-                                    extensions: [
-                                        // [$class: 'CloneOption', honorRefspec: true, noTags: false, reference: '', shallow: false, timeout: 60],
-                                        [$class: 'SparseCheckoutPaths', 
-                                            sparseCheckoutPaths: [
-                                                [path: "${REPO_PATH}"]
-                                        ]],
-                                        [$class: 'CleanBeforeCheckout']
-                                    ],
-                                    userRemoteConfigs: [[
-                                        credentialsId: "${GIT_CREDENTIALS}", 
-                                        url: "${REPO_URL}"
-                                        ]]
-                                ]
-                            )
-                        }
+                steps {
+                    dir(SERVICE_NAME) {
+                        checkout(poll: false, changelog: true,
+                            scm: [
+                                $class: 'GitSCM', branches: [[name: "${BRANCH}"]],
+                                browser: [$class: 'GithubWeb', repoUrl: "${REPO_URL}"],
+                                doGenerateSubmoduleConfigurations: false,
+                                extensions: [
+                                    // [$class: 'CloneOption', honorRefspec: true, noTags: false, reference: '', shallow: false, timeout: 60],
+                                    [$class: 'SparseCheckoutPaths', 
+                                        sparseCheckoutPaths: [
+                                            [path: "${REPO_PATH}"]
+                                    ]],
+                                    [$class: 'CleanBeforeCheckout']
+                                ],
+                                userRemoteConfigs: [[
+                                    credentialsId: "${GIT_CREDENTIALS}", 
+                                    url: "${REPO_URL}"
+                                    ]]
+                            ]
+                        )
                     }
                 }
             }
         }
-        // stage('Build Service') {
-        //     steps {
-        //         script {
-        //             sh 'pwd'
-        //             sh 'mvn -f couponservice/src/couponservice/pom.xml clean package'
-        //         }
-        //     }
-        // }
-        // stage('Test Service') {
-        //     steps {
-        //         script {
-        //             sh 'mvn -f couponservice/src/couponservice/pom.xml test'
-        //         }
-        //     }
-        // }
+        stage('Build Service') {
+            steps {
+                script {
+                    sh 'pwd'
+                    sh 'mvn -f couponservice/src/couponservice/pom.xml clean package'
+                }
+            }
+        }
+        stage('Test Service') {
+            steps {
+                script {
+                    sh 'mvn -f couponservice/src/couponservice/pom.xml test'
+                }
+            }
+        }
         stage('SonarQube Analysis') {
             steps {
                 script {
                     withSonarQubeEnv(credentialsId: 'sonarqube') {
-                        // sh 'mvn -f couponservice/src/couponservice/pom.xml sonar:sonar'
                         sh 'mvn -f couponservice/src/couponservice/pom.xml verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=cyberlysafe_java-springboot-microservices'
                     }
                 }
