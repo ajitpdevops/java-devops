@@ -24,19 +24,17 @@ services:
       - jenkins-agent:/home/jenkins/agent
     networks:
       - jenkins
-  
-  jenkins-dindagent:
-    build:
-      context: .
-      dockerfile: Dockerfile.dindagent # Specify the Dockerfile name if it's different from 'Dockerfile'
-    container_name: jenkins-dindagent
+
+  web-db:
+    image: postgres:16.3
+    container_name: web-db
+    restart: always
+    ports:
+      - "5432:5432"
     environment:
-      - JENKINS_URL=http://jenkins-master:8080
-      - JENKINS_AGENT_NAME=dind-agent
-      - JENKINS_AGENT_WORKDIR=/home/jenkins/agent
-      - JENKINS_SECRET=b21cae9d28e261fd6f99fa6e792d5465b32614cf11e8b52adebd28c7800238e5
-    volumes:
-      - jenkins-dindagent:/home/jenkins/agent
+      - POSTGRES_DB=coupondb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     networks:
       - jenkins
   

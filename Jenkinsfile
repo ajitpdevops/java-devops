@@ -54,14 +54,14 @@ pipeline {
             steps {
                 script {
                     sh 'pwd'
-                    sh 'mvn -f couponservice/src/couponservice/pom.xml clean package -Dspring.profiles.active=local'
+                    sh 'mvn -f couponservice/src/couponservice/pom.xml clean package -Dspring.profiles.active=dev'
                 }
             }
         }
         stage('Test Service') {
             steps {
                 script {
-                    sh 'mvn -f couponservice/src/couponservice/pom.xml test'
+                    sh 'mvn -f couponservice/src/couponservice/pom.xml test -Dspring.profiles.active=dev'
                 }
             }
         }
