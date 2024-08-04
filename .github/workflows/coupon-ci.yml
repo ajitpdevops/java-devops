@@ -104,7 +104,7 @@ jobs:
         docker images
         docker ps -a
         pwd
-        la -la
+        ls -la
         sleep 60
       working-directory: src
 
@@ -116,8 +116,8 @@ jobs:
 
     - name: Tag Docker Image
       run: |
-        docker tag src_coupon-app:latest whoajitpatil/couponservice:latest
-        docker tag src_coupon-app:latest whoajitpatil/couponservice:${{ env.version }}
+        docker tag src-coupon-app:latest whoajitpatil/couponservice:latest
+        docker tag src-coupon-app:latest whoajitpatil/couponservice:${{ env.version }}
       working-directory: src
 
     - name: Docker login
