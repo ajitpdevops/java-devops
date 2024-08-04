@@ -74,5 +74,12 @@ pipeline {
                 }
             }
         }
+        stage('Quality Gate') {
+            steps {
+                script {
+                    waitForQualityGate abortPipeline: true, credentialsId: 'sonarqube', id: 'cyberlysafe_java-springboot-microservices', timeout: 300
+                }
+            }
+        }
     }
 }
