@@ -69,7 +69,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv(credentialsId: 'sonarqube') {
-                        sh 'mvn -f ${SERVICE_NAME}/src/${SERVICE_NAME}/pom.xml verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=cyberlysafe_java-springboot-microservices -Dspring.profiles.active=dev'
+                        sh 'mvn -f ${SERVICE_NAME}/src/${SERVICE_NAME}/pom.xml verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=cyberlysafe_productservice -Dspring.profiles.active=dev'
                     }
                 }
             }
