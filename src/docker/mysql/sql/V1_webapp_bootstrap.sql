@@ -1,6 +1,6 @@
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`mydb` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`coupondb` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
 
-use mydb;
+use coupondb;
 
 create table product(
 id int AUTO_INCREMENT PRIMARY KEY,

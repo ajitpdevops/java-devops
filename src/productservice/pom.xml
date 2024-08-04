@@ -14,8 +14,30 @@
 	<name>productservice</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
+		<sonar.organization>cyberlysafe</sonar.organization>
+  		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
+	<profiles>
+		<profile>
+			<id>local</id>
+			<properties>
+				<spring.profiles.active>local</spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<spring.profiles.active>prod</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

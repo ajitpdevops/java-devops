@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ideas.springcloud.model.Coupon;
 import com.ideas.springcloud.repos.CouponRepo;
 
+
 @RestController
 @RequestMapping("/couponapi")
 public class CouponRestController {
