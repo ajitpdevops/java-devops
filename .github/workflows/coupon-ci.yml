@@ -25,21 +25,43 @@ jobs:
     
     - name: Run Commands
       run: |
-        echo "JAVA_HOME=${JAVA_HOME}"
-        echo "MAVEN_HOME=${MAVEN_HOME}"
-        echo "PATH=${PATH}"
         java -version
         mvn -version
         docker --version
+        terraform --version
         echo "PWD: ${pwd}"
         echo "GITHUB_WORKSPACE: ${GITHUB_WORKSPACE}"
-        # Print environment variables
-        env
 
     - name: Start PostgreSQL
       run: docker compose -f compose.yml up -d web-db
       working-directory: src
 
+    - name: Cache SonarCloud packages
+      uses: actions/cache@v3
+      with: 
+        path: ~/.sonar/cache
+        key: ${{ runner.os }}-sonar
+        restore-keys: ${{ runner.os }}-sonar
+          
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
     - name: Build with Maven
       run: mvn -B clean install
+      working-directory: src/couponservice
+
+    - name: Run Tests
+      run: mvn test
+      working-directory: src/couponservice
+
+    # Run SonarCloud analysis
+    - name: Build and analyze with SonarCloud
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=cyberlysafe_java-springboot-microservices
       working-directory: src/couponservice
