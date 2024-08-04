@@ -2,10 +2,6 @@ on:
   push:
     branches:
     - main
-    - mcs-*
-  pull_request:
-    branches:
-    - main
 
 jobs:
   build:
@@ -97,6 +93,7 @@ jobs:
     - name: Run Docker Maven Build
       run: |
         docker compose -f compose.yml up -d mvn-coupon
+        docker wait mvn-coupon
       working-directory: src
 
     - name: Print Docker Images and Containers
@@ -105,7 +102,6 @@ jobs:
         docker ps -a
         pwd
         ls -la
-        sleep 60
       working-directory: src
 
     - name: Run Docker App
