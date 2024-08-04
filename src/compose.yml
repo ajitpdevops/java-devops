@@ -44,6 +44,8 @@ services:
     working_dir: /repo
     entrypoint: mvn -B
     command: clean install
+    depends_on:
+      - web-db
 
   web-db:
     image: postgres:16.3
@@ -81,4 +83,3 @@ services:
       - "8091:8091"
     depends_on:
       - web-db
-      - coupon-app
