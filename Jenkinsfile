@@ -8,7 +8,7 @@ pipeline {
     environment {
         GIT_CREDENTIALS = '5f03c196-0173-4c72-84a7-44092e117cd7'
         REPO_URL = 'https://github.com/ajitpdevops/java-devops.git'
-        BRANCH = 'main'
+        BRANCH = 'MCS-003'
         SERVICE_NAME = "${params.Service}"
     }
     tools {
