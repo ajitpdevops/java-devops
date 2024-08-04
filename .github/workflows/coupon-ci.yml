@@ -103,14 +103,14 @@ jobs:
       run: |
         docker images
         docker ps -a
-        echo "PWD: ${pwd}"
-        echo "Content in the target directory"
-        ls -la couponservice/target
-        sleep 30
+        pwd
+        la -la
+        sleep 60
       working-directory: src
 
     - name: Run Docker App
       run: |
+        docker compose ps
         docker compose -f compose.yml up -d coupon-app
       working-directory: src
 
