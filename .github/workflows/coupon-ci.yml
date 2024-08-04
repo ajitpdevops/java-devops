@@ -99,6 +99,16 @@ jobs:
         docker compose -f compose.yml up -d mvn-coupon
       working-directory: src
 
+    - name: Print Docker Images and Containers
+      run: |
+        docker images
+        docker ps -a
+        echo "PWD: ${pwd}"
+        echo "Content in the target directory"
+        ls -la couponservice/target
+        sleep 30
+      working-directory: src
+
     - name: Run Docker App
       run: |
         docker compose -f compose.yml up -d coupon-app
