@@ -3,7 +3,7 @@ pipeline {
         label 'agent'
     }
     parameters {
-        string(name: 'Service', defaultValue: 'couponservice', description: 'Service Name')
+        string(name: 'Service', defaultValue: 'productservice', description: 'Service Name')
     }
     environment {
         GIT_CREDENTIALS = '5f03c196-0173-4c72-84a7-44092e117cd7'
